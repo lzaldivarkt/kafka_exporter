@@ -247,7 +247,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 
 	getTopicMetrics := func(topic string) {
 		defer wg.Done()
-		if e.topicFilter.MatchString(topic) {
+		if e.topicFilter.MatchString(topic) && !strings.Contains(topic, "confluent") {
 			partitions, err := e.client.Partitions(topic)
 			if err != nil {
 				plog.Errorf("Cannot get partitions of topic %s: %v", topic, err)
